@@ -1,0 +1,163 @@
+@import "checkbox.css";
+
+:root {
+    --sombraPrimaria: 7px 7px 5px 0px #45a049; 
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f4f4f4;
+}
+
+#app {
+    text-align: center;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 20px auto;
+}
+
+form {
+    margin: 25px 0;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+#taskName,
+#taskComment {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 16px;
+    box-sizing: border-box;
+    border-radius: 5px;
+    box-shadow: var(--sombraPrimaria);
+}
+
+#taskComment {
+    resize: none;
+    min-height: 75px;
+    font-size: large;
+}
+
+#taskTime {
+    width: 30%;
+    text-align: center;
+    font-size: larger;
+    font-weight: bold;
+    box-shadow: var(--sombraPrimaria);
+}
+
+input[type='checkbox'] {
+    width: 20px;
+    box-shadow: none;
+}
+
+#taskName {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: large;
+}
+
+
+/* Estilos para elementos con identificadores que comienzan con "edit..." creados por app.js */
+input[id^="editName"] {
+    height: 40px;
+    width: 120px;
+}
+
+input[id^="editComment"] {
+    height: 60px;
+}
+
+input[id^="editTime"] {
+    /* Por ejemplo: input#editTime1, input#editTime2, etc. */
+    /* Agrega aquí tus estilos personalizados */
+    width: 40px;
+}
+
+
+button {
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    margin-top: 20px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+button.completed {
+    background-color: #98FB98;
+    /* Color de fondo para tareas completadas (verde claro) */
+    color: #008000;
+    /* Color de texto para tareas completadas (verde oscuro) */
+}
+
+table {
+    max-width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table,
+th,
+td {
+    border: 1px solid #ddd;
+}
+
+th,
+td {
+    padding: 12px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+.btn {
+    display: flex;
+    justify-content: space-evenly;
+
+    & button {
+        margin: 2px;
+    }
+}
+
+.tasksResolve {
+    padding: 10px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    border: #dafada solid 2px;
+    box-shadow: inset 2px 2px 5px 1px rgba(186, 252, 186, 0.687);
+    margin-top: 7px;
+
+    & span {
+        font-weight: bold;
+    }
+}
+
+/* Media Queries para tamaños de pantalla diferentes */
+@media only screen and (max-width: 600px) {
+    #app {
+        padding: 10px;
+    }
+
+    form {
+        max-width: 100%;
+    }
+}

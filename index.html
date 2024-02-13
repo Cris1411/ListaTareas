@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+    integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+
+    <title>Lista de Tareas</title>
+    <link rel="stylesheet" href="/styles/styles.css">
+</head>
+
+<body>
+    <div id="app">
+        <h1>Lista de Tareas</h1>
+
+        <!-- Formulario para ingresar nuevas tareas -->
+        <form id="taskForm">
+            <label for="taskName">Nombre de la tarea:</label>
+            <input type="text" id="taskName" autocomplete="off" required>
+
+            <label for="taskComment">Comentario:</label>
+            <textarea id="taskComment" required></textarea>
+
+            <label for="taskTime">Tiempo estimado (en minutos):</label>
+            <input type="number" id="taskTime" min="10" step="10" required>
+
+            <div>
+                <button type="submit">Agregar Tarea</button>
+            </div>
+        </form>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Comentario</th>
+                    <th>Tiempo</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="taskList">
+                <!-- Aquí se agregarán las tareas dinámicamente con JavaScript -->
+            </tbody>
+        </table>
+
+        <div class="tasksResolve">
+            <p>Total de tareas por resolver: <span id="pendingTasks">0</span></p>
+            <p>Tiempo total: <span id="totalTime">0</span> minutos</p>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
