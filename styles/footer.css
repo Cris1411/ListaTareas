@@ -1,0 +1,75 @@
+/*
+ * footer.css
+ * Estilos para el pie de página de la aplicación Lista de Tareas.
+ * Incluye diseño, colores y responsive del footer.
+ */
+.pie {
+    background-color: var(--header-bg);
+    padding: 20px 0;
+    margin-top: 40px;
+    border-top: 1px solid var(--border-color);
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+.contenido-pie {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.seccion-pie {
+    flex: 1;
+    text-align: center;
+}
+
+.seccion-pie h3 {
+    color: var(--text-color);
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+.seccion-pie p {
+    color: var(--text-color);
+    font-size: 0.9rem;
+    margin: 5px 0;
+}
+
+.seccion-pie a {
+    color: var(--link-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.seccion-pie a:hover {
+    color: var(--link-hover-color);
+}
+
+.pie-inferior {
+    text-align: center;
+    padding-top: 20px;
+    margin-top: 20px;
+    border-top: 1px solid var(--border-color);
+    color: var(--text-color);
+    font-size: 0.8rem;
+}
+
+/* Diseño responsivo */
+@media (max-width: 768px) {
+    .contenido-pie {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .seccion-pie {
+        margin-bottom: 20px;
+    }
+
+    .seccion-pie:last-child {
+        margin-bottom: 0;
+    }
+} 

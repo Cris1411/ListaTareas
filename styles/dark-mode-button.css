@@ -1,0 +1,85 @@
+/*
+ * dark-mode-button.css
+ * Estilos para el interruptor (toggle) de modo oscuro.
+ * Incluye diseño y responsive del botón de cambio de tema.
+ */
+.interruptor-modo-oscuro {
+    /* Oculta el botón original, usaremos un label con checkbox */
+    display: none;
+}
+
+.interruptor-modo-oscuro + label {
+    display: inline-block;
+    width: 60px; /* Ancho del interruptor */
+    height: 34px; /* Alto del interruptor */
+    background-color: #ccc; /* Color de fondo cuando está apagado */
+    border-radius: 34px; /* Bordes redondeados */
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.interruptor-modo-oscuro + label::after {
+    content: '';
+    position: absolute;
+    width: 26px; /* Ancho del "círculo" del interruptor */
+    height: 26px;
+    border-radius: 50%;
+    background-color: white; /* Color del "círculo" */
+    top: 4px;
+    left: 4px;
+    transition: transform 0.3s;
+}
+
+.interruptor-modo-oscuro:checked + label {
+    background-color: #2196F3; /* Color de fondo cuando está encendido (azul) */
+}
+
+.interruptor-modo-oscuro:checked + label::after {
+    transform: translateX(26px); /* Mueve el círculo a la derecha cuando está encendido */
+}
+
+/* Estilos para el texto del botón (si lo mantienes) */
+.texto-interruptor-modo-oscuro {
+    margin-left: 10px;
+    font-weight: bold;
+    color: var(--text-color); /* Utiliza la variable de color de texto del tema */
+    transition: color 0.3s;
+}
+
+/* Posicionamiento del toggle */
+.contenedor-interruptor-modo-oscuro {
+    position: absolute;
+    top: 20px; /* Ajusta según sea necesario */
+    right: 20px; /* Ajusta según sea necesario */
+    display: flex;
+    align-items: center;
+    z-index: 1000;
+}
+
+@media (max-width: 600px) {
+    .contenedor-interruptor-modo-oscuro {
+        position: static;
+        justify-content: center;
+        width: 100%;
+        margin-bottom: 20px;
+        padding-top: 10px;
+    }
+    .interruptor-modo-oscuro + label {
+        width: 70px;
+        height: 40px;
+    }
+    .interruptor-modo-oscuro + label::after {
+        width: 32px;
+        height: 32px;
+        top: 4px;
+        left: 4px;
+    }
+    .interruptor-modo-oscuro:checked + label::after {
+        transform: translateX(30px);
+    }
+    .texto-interruptor-modo-oscuro {
+        font-size: 1.1em;
+        margin-left: 16px;
+    }
+} 

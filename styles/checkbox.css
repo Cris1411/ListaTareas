@@ -1,20 +1,16 @@
+/*
+ * checkbox.css
+ * Estilos personalizados para el checkbox de tareas.
+ * Incluye diseño tipo interruptor y animaciones.
+ */
 .mycheckbox input:checked~span::after {
-    background: rgb(12, 167, 12);
+    background: var(--checked-knob-color);
     transform: scale(0.85) translate(35px);
 }
 
 .mycheckbox input:checked~span .on {
     transform: translate(30px);
     opacity: 1;
-}
-
-.mycheckbox input:checked~span .off {
-    transform: translate(30px);
-    opacity: 0;
-}
-
-.mycheckbox input:checked~span .on-bell {
-    transform: translate(31px);
 }
 
 .mycheckbox input {
@@ -26,9 +22,9 @@
     width: 60px;
     height: 30px;
     border-radius: 30px;
-    background: rgb(187, 186, 186);
+    background: var(--unchecked-bg-color);
     cursor: pointer;
-    box-shadow: inset 0px 0px 2px rgb(15, 15, 15);
+    box-shadow: inset 0px 0px 2px var(--shadow-dark-color);
 
     position: relative;
 }
@@ -40,9 +36,9 @@
     height: 30px;
     transform: scale(0.85);
     border-radius: 30px;
-    background: rgb(248, 22, 22);
+    background: var(--unchecked-knob-color);
     transition: 0.5s;
-    box-shadow: inset 0px 0px 2px rgb(37, 37, 37);
+    box-shadow: inset 0px 0px 2px var(--shadow-dark-color);
 }
 
 .mycheckbox i {
@@ -50,17 +46,12 @@
     left: 7px;
     top: 7px;
     z-index: 1;
-    color: white;
+    color: var(--icon-color);
     transition: 0.5s;
 }
 
 .mycheckbox .on {
     opacity: 0;
     left: 7px;
-    top: 7px;
-}
-
-.mycheckbox .off {
-    left: 9px;
     top: 7px;
 }

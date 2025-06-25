@@ -1,177 +1,189 @@
-// Inicializar variables
-let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-let taskIdCounter = tasks.length > 0 ? tasks[tasks.length - 1].id + 1 : 1;
+// Inicialización de variables globales
+// Cargamos las tareas guardadas en localStorage o inicializamos un array vacío
+let tareas = JSON.parse(localStorage.getItem('tareas')) || [];
+// Inicializamos el contador de IDs basado en la última tarea existente
+let contadorIdTarea = tareas.length > 0 ? tareas[tareas.length - 1].id + 1 : 1;
 
-window.onload = function () {
-    updateTaskList();
-};
+// Referencia al botón de modo oscuro
+const interruptorModoOscuro = document.getElementById('interruptorModoOscuro');
 
-// Agregar evento de submit al formulario
-document.getElementById('taskForm').addEventListener('submit', function (event) {
-    event.preventDefault();
+// Función para verificar y aplicar el modo oscuro al cargar la página
+function aplicarPreferenciaModoOscuro() {
+    const esModoOscuro = localStorage.getItem('modoOscuro') === 'activado';
+    if (esModoOscuro) {
+        document.body.classList.add('modo-oscuro');
+        interruptorModoOscuro.textContent = 'Modo Claro';
+    } else {
+        document.body.classList.remove('modo-oscuro');
+        interruptorModoOscuro.textContent = 'Modo Oscuro';
+    }
+}
 
-    // Obtener valores del formulario
-    const name = document.getElementById('taskName').value;
-    const comment = document.getElementById('taskComment').value;
-    const time = parseInt(document.getElementById('taskTime').value);
+// Llamar a la función al cargar la página
+aplicarPreferenciaModoOscuro();
 
-
-    // Crear nueva tarea
-    const task = {
-        id: taskIdCounter++,
-        name: name,
-        comment: comment,
-        time: time,
-        completed: false
-    };
-
-    // Agregar la tarea a la lista y actualizar la interfaz
-    tasks.push(task);
-    updateLocalStorage();
-    updateTaskList();
-
-    // Limpiar el formulario después de agregar una tarea
-    document.getElementById('taskForm').reset();
+// Event listener para el botón de modo oscuro
+interruptorModoOscuro.addEventListener('click', () => {
+    if (document.body.classList.contains('modo-oscuro')) {
+        document.body.classList.remove('modo-oscuro');
+        localStorage.setItem('modoOscuro', 'desactivado');
+        interruptorModoOscuro.textContent = 'Modo Oscuro';
+    } else {
+        document.body.classList.add('modo-oscuro');
+        localStorage.setItem('modoOscuro', 'activado');
+        interruptorModoOscuro.textContent = 'Modo Claro';
+    }
 });
 
-// Función para actualizar la lista de tareas en la interfaz
-function updateTaskList() {
-    const taskList = document.getElementById("taskList");
-    taskList.innerHTML = "";
+// Función que se ejecuta cuando la página termina de cargar
+window.onload = function () {
+    actualizarListaTareas();
+};
 
-    let totalTime = 0;
-    let pendingTasks = 0;
+// Evento que maneja el envío del formulario para crear nuevas tareas
+document.getElementById('formularioTarea').addEventListener('submit', function (evento) {
+    evento.preventDefault(); // Prevenimos el comportamiento por defecto del formulario
 
-    tasks.forEach(task => {
-        const row = document.createElement("tr");
-        row.id = `taskRow_${task.id}`;
-        row.innerHTML = `
-            <td>${task.name}</td>
-            <td>${task.comment}</td>
-            <td>${task.time} minutos</td>
+    // Obtenemos los valores ingresados por el usuario
+    const nombre = document.getElementById('nombreTarea').value;
+    const comentario = document.getElementById('comentarioTarea').value;
+    const tiempo = parseInt(document.getElementById('tiempoTarea').value);
+
+    // Creamos un nuevo objeto tarea con los datos ingresados
+    const tarea = {
+        id: contadorIdTarea++, // Asignamos un ID único e incrementamos el contador
+        nombre: nombre,
+        comentario: comentario,
+        tiempo: tiempo,
+        completada: false // Por defecto, la tarea no está completada
+    };
+
+    // Agregamos la nueva tarea al array y actualizamos la interfaz
+    tareas.push(tarea);
+    actualizarLocalStorage(); // Guardamos en localStorage
+    actualizarListaTareas(); // Actualizamos la visualización
+
+    // Limpiamos el formulario para una nueva entrada
+    document.getElementById('formularioTarea').reset();
+});
+
+// Función que actualiza la lista de tareas en la interfaz
+function actualizarListaTareas() {
+    const listaTareas = document.getElementById("listaTareas");
+    listaTareas.innerHTML = ""; // Limpiamos la lista actual
+
+    // Variables para el cálculo de estadísticas
+    let tiempoTotal = 0;
+    let tareasPendientes = 0;
+
+    // Iteramos sobre cada tarea para crear su representación visual
+    tareas.forEach(tarea => {
+        const fila = document.createElement("tr");
+        fila.id = `filaTarea_${tarea.id}`;
+        // Creamos el HTML para cada fila de tarea
+        fila.innerHTML = `
+            <td>${tarea.nombre}</td>
+            <td>${tarea.comentario}</td>
+            <td>${tarea.tiempo} minutos</td>
             <td>
-
                 <label class="mycheckbox">
-                    <input type="checkbox" onchange="completeTask(${task.id})" ${task.completed ? 'checked' : ''}>
+                    <input type="checkbox" onchange="completarTarea(${tarea.id})" ${tarea.completada ? 'checked' : ''}>
                     <span>
                     <i class="fas fa-check on"></i>
                     </span>
                 </label>
 
                 <div class="btn">
-                    <button onclick="editTask(${task.id})">Editar</button>
-                    <button onclick="deleteTask(${task.id})">Borrar</button>
+                    <button onclick="editarTarea(${tarea.id})">Editar</button>
+                    <button onclick="borrarTarea(${tarea.id})">Borrar</button>
                 </div>
             </td>
         `;
 
-        if (!task.completed) {
-            pendingTasks++;
-            totalTime += task.time;
+        // Actualizamos las estadísticas si la tarea no está completada
+        if (!tarea.completada) {
+            tareasPendientes++;
+            tiempoTotal += tarea.tiempo;
         }
 
-        taskList.appendChild(row);
+        listaTareas.appendChild(fila);
     });
 
-    // Actualizar la información de tareas pendientes y tiempo total
-    document.getElementById("pendingTasks").innerText = pendingTasks;
-    document.getElementById("totalTime").innerText = totalTime.toFixed();
+    // Actualizamos los contadores en la interfaz
+    document.getElementById("tareasPendientes").innerText = tareasPendientes;
+    document.getElementById("tiempoTotal").innerText = tiempoTotal.toFixed();
 
-    // Asignar eventos de botones después de la edición
-    tasks.forEach(task => {
-        const deleteButton = document.querySelector(`#taskRow_${task.id} button[onclick="deleteTask(${task.id})"]`);
-        if (deleteButton) {
-            deleteButton.addEventListener("click", () => deleteTask(task.id));
+    // Asignamos eventos a los botones de eliminar
+    tareas.forEach(tarea => {
+        const botonBorrar = document.querySelector(`#filaTarea_${tarea.id} button[onclick="borrarTarea(${tarea.id})"]`);
+        if (botonBorrar) {
+            botonBorrar.addEventListener("click", () => borrarTarea(tarea.id));
         }
     });
 }
 
-// Función para marcar una tarea como completada o a completar
-function completeTask(taskId) {
-    const task = tasks.find(task => task.id === taskId);
-
-    // Alternar entre "A completar" y "Completada"
-    task.completed = !task.completed;
-
-    // Actualizar el estado de completado al completar una tarea
-    updateLocalStorage();
-
-    // Actualizar la lista de tareas en la interfaz
-    updateTaskList();
+// Función para marcar una tarea como completada o no completada
+function completarTarea(idTarea) {
+    const tarea = tareas.find(tarea => tarea.id === idTarea);
+    tarea.completada = !tarea.completada; // Invertimos el estado actual
+    actualizarLocalStorage(); // Guardamos los cambios
+    actualizarListaTareas(); // Actualizamos la interfaz
 }
 
-// Función para editar una tarea
-function editTask(taskId) {
-    const taskIndex = tasks.findIndex(task => task.id === taskId);
-    const taskRow = document.getElementById(`taskRow_${taskId}`);
+// Función para iniciar la edición de una tarea
+function editarTarea(idTarea) {
+    const indiceTarea = tareas.findIndex(tarea => tarea.id === idTarea);
+    const filaTarea = document.getElementById(`filaTarea_${idTarea}`);
 
-    // Crear campos de entrada para editar
-    const nameInput = document.createElement("input");
-    nameInput.type = "text";
-    nameInput.value = tasks[taskIndex].name;
-
-    const commentInput = document.createElement("textarea");
-    commentInput.value = tasks[taskIndex].comment;
-
-    const timeInput = document.createElement("input");
-    timeInput.type = "number";
-    timeInput.step = "10";
-    timeInput.value = tasks[taskIndex].time;
-    timeInput.style.width = "50px";
-    timeInput.style.textAlign = "center";
-
-    // Reemplazar contenido de la fila con campos de entrada
-    taskRow.innerHTML = `
-        <td><input type="text" value="${tasks[taskIndex].name}" id="editName_${taskId}" required></td>
-        <td><textarea id="editComment_${taskId}" required>${tasks[taskIndex].comment}</textarea></td>
-        <td><input type="number" step="10" value="${tasks[taskIndex].time}" id="editTime_${taskId}" required></td>
+    // Reemplazamos la fila con campos de edición
+    filaTarea.innerHTML = `
+        <td><input type="text" value="${tareas[indiceTarea].nombre}" id="editarNombre_${idTarea}" required></td>
+        <td><textarea id="editarComentario_${idTarea}" required>${tareas[indiceTarea].comentario}</textarea></td>
+        <td><input type="number" step="10" value="${tareas[indiceTarea].tiempo}" id="editarTiempo_${idTarea}" required></td>
         <td>
-            <button onclick="updateTask(${taskId})">Actualiza</button>
-            <button onclick="cancelEdit(${taskId})">Cancela</button>
+            <button onclick="actualizarTarea(${idTarea})">Actualizar</button>
+            <button onclick="cancelarEdicion(${idTarea})">Cancelar</button>
         </td>
     `;
 }
 
-// Función para actualizar una tarea después de editar
-function updateTask(taskId) {
-    const taskIndex = tasks.findIndex(task => task.id === taskId);
+// Función para guardar los cambios después de editar una tarea
+function actualizarTarea(idTarea) {
+    const indiceTarea = tareas.findIndex(tarea => tarea.id === idTarea);
 
-    // Obtener nuevos valores de los campos de entrada
-    const newName = document.getElementById(`editName_${taskId}`).value;
-    const newComment = document.getElementById(`editComment_${taskId}`).value;
-    const newTime = parseInt(document.getElementById(`editTime_${taskId}`).value);
+    // Obtenemos los nuevos valores ingresados
+    const nuevoNombre = document.getElementById(`editarNombre_${idTarea}`).value;
+    const nuevoComentario = document.getElementById(`editarComentario_${idTarea}`).value;
+    const nuevoTiempo = parseInt(document.getElementById(`editarTiempo_${idTarea}`).value);
 
-    // Actualizar la tarea con los nuevos valores
-    tasks[taskIndex].name = newName;
-    tasks[taskIndex].comment = newComment;
-    tasks[taskIndex].time = newTime;
+    // Actualizamos la tarea con los nuevos valores
+    tareas[indiceTarea].nombre = nuevoNombre;
+    tareas[indiceTarea].comentario = nuevoComentario;
+    tareas[indiceTarea].tiempo = nuevoTiempo;
+    tareas[indiceTarea].completada = false; // Reseteamos el estado a no completado
 
-    // Restablecer el estado a "A completar" después de editar
-    tasks[taskIndex].completed = false;
-
-    // Volver a mostrar la fila de la tabla con los nuevos valores
-    updateTaskList();
+    actualizarListaTareas(); // Actualizamos la interfaz
 }
 
-// Función para cancelar la edición y volver a mostrar la fila original
-function cancelEdit(taskId) {
-    // Recargar la fila original de la tarea
-    updateTaskList();
+// Función para cancelar la edición y volver al estado original
+function cancelarEdicion(idTarea) {
+    actualizarListaTareas(); // Recargamos la lista original
 }
 
+// Función para eliminar una tarea
+function borrarTarea(idTarea) {
+    // Pedimos confirmación antes de eliminar
+    const confirmacion = confirm("¿Estás seguro de que quieres borrar esta tarea?");
 
-// Función para borrar una tarea
-function deleteTask(taskId) {
-    const confirmation = confirm("¿Estás seguro de que quieres borrar esta tarea?");
-
-    if (confirmation) {
-        tasks = tasks.filter(task => task.id !== taskId);
-        updateLocalStorage();
-        updateTaskList();
+    if (confirmacion) {
+        // Filtramos la tarea a eliminar del array
+        tareas = tareas.filter(tarea => tarea.id !== idTarea);
+        actualizarLocalStorage(); // Guardamos los cambios
+        actualizarListaTareas(); // Actualizamos la interfaz
     }
 }
 
-// Función para actualizar el almacenamiento local
-function updateLocalStorage() {
-    localStorage.setItem('tasks', JSON.stringify(tasks));
+// Función para guardar las tareas en localStorage
+function actualizarLocalStorage() {
+    localStorage.setItem('tareas', JSON.stringify(tareas));
 }

@@ -5,27 +5,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <link rel="preload" href="https://pro.fontawesome.com/releases/v5.10.0/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
     integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
 
     <title>Lista de Tareas</title>
     <link rel="stylesheet" href="/styles/styles.css">
+    <link rel="stylesheet" href="/styles/dark-mode.css">
+    <link rel="stylesheet" href="/styles/dark-mode-button.css">
 </head>
 
 <body>
-    <div id="app">
+    <div id="aplicacion">
         <h1>Lista de Tareas</h1>
 
+        <!-- Modo oscuro-->
+        <div class="contenedor-interruptor-modo-oscuro">
+            <input type="checkbox" id="interruptorModoOscuro" title="interruptorModoOscuro" class="interruptor-modo-oscuro">
+            <label for="interruptorModoOscuro"></label>
+            <span class="texto-interruptor-modo-oscuro">Modo Oscuro</span>
+        </div>
+
         <!-- Formulario para ingresar nuevas tareas -->
-        <form id="taskForm">
-            <label for="taskName">Nombre de la tarea:</label>
-            <input type="text" id="taskName" autocomplete="off" required>
+        <form id="formularioTarea">
+            <label for="nombreTarea">Nombre de la tarea:</label>
+            <input type="text" id="nombreTarea" autocomplete="off" required>
 
-            <label for="taskComment">Comentario:</label>
-            <textarea id="taskComment" required></textarea>
+            <label for="comentarioTarea">Comentario:</label>
+            <textarea id="comentarioTarea" required></textarea>
 
-            <label for="taskTime">Tiempo estimado (en minutos):</label>
-            <input type="number" id="taskTime" min="10" step="10" required>
+            <label for="tiempoTarea">Tiempo estimado (en minutos):</label>
+            <input type="number" id="tiempoTarea" min="10" step="10" required>
 
             <div>
                 <button type="submit">Agregar Tarea</button>
@@ -41,16 +51,43 @@
                     <th>Acciones</th>
                 </tr>
             </thead>
-            <tbody id="taskList">
+            <tbody id="listaTareas">
                 <!-- Aquí se agregarán las tareas dinámicamente con JavaScript -->
             </tbody>
         </table>
 
-        <div class="tasksResolve">
-            <p>Total de tareas por resolver: <span id="pendingTasks">0</span></p>
-            <p>Tiempo total: <span id="totalTime">0</span> minutos</p>
+        <div class="tareasPorResolver">
+            <p>Total de tareas por resolver: <span id="tareasPendientes">0</span></p>
+            <p>Tiempo total: <span id="tiempoTotal">0</span> minutos</p>
         </div>
     </div>
+
+    <!-- Pie de página -->
+    <footer class="pie">
+        <div class="contenido-pie">
+            <div class="seccion-pie">
+                <h3>Acerca de</h3>
+                <p>Una aplicación simple y efectiva para gestionar tus tareas diarias.</p>
+            </div>
+            <div class="seccion-pie">
+                <h3>Contacto</h3>
+                <p>Email: contacto@listatareas.com</p>
+                <p>Tel: (123) 456-7890</p>
+            </div>
+            <div class="seccion-pie">
+                <h3>Síguenos</h3>
+                <p>
+                    <a href="#"><i class="fab fa-facebook"></i> Facebook</a>
+                </p>
+                <p>
+                    <a href="#"><i class="fab fa-twitter"></i> Twitter</a>
+                </p>
+            </div>
+        </div>
+        <div class="pie-inferior">
+            <p>&copy; 2024 Lista de Tareas. Todos los derechos reservados.</p>
+        </div>
+    </footer>
 
     <script src="app.js"></script>
 </body>

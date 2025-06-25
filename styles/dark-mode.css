@@ -1,0 +1,137 @@
+/*
+ * dark-mode.css
+ * Estilos para el modo oscuro de la aplicación Lista de Tareas.
+ * Define variables y colores para el tema oscuro y claro.
+ */
+:root {
+    --bg-color: #f4f4f4;
+    --text-color: #333;
+    --card-bg: #fff;
+    --box-shadow-color: rgba(0, 0, 0, 0.1);
+    --border-color: #e9ecef;
+    --header-bg: #f2f2f2;
+    --input-shadow: 7px 7px 5px 0px #45a049;
+    --link-color: #007bff;
+    --link-hover-color: #0056b3;
+    --unchecked-bg-color: rgb(187, 186, 186);
+    --unchecked-knob-color: rgb(248, 22, 22);
+    --checked-knob-color: rgb(12, 167, 12);
+    --shadow-dark-color: rgb(15, 15, 15);
+    --icon-color: white;
+}
+
+body.modo-oscuro {
+    --bg-color: #2c2c2c;
+    --text-color: #e0e0e0;
+    --card-bg: #3c3c3c;
+    --box-shadow-color: rgba(0, 0, 0, 0.4);
+    --border-color: #555;
+    --header-bg: #444;
+    --input-shadow: 7px 7px 5px 0px #2a2a2a;
+    --link-color: #7abeff;
+    --link-hover-color: #4a8edc;
+    --unchecked-bg-color: #555;
+    --unchecked-knob-color: #a0a0a0;
+    --checked-knob-color: #6aaa6a;
+    --shadow-dark-color: rgb(37, 37, 37);
+    --icon-color: white;
+}
+
+/* Estilos generales del body */
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Estilos del contenedor principal */
+#aplicacion {
+    background-color: var(--card-bg);
+    box-shadow: 0 0 10px var(--box-shadow-color);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Estilos de input y textarea */
+#nombreTarea,
+#comentarioTarea,
+#tiempoTarea {
+    box-shadow: var(--input-shadow);
+    background-color: var(--card-bg);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Estilos de la tabla */
+table,
+th,
+td {
+    border: 1px solid var(--border-color);
+    transition: border-color 0.3s ease;
+}
+
+th {
+    background-color: var(--header-bg);
+    transition: background-color 0.3s ease;
+}
+
+/* Sección de tareas por resolver */
+.tareasPorResolver {
+    border: var(--border-color) solid 2px;
+    box-shadow: inset 2px 2px 5px 1px var(--box-shadow-color);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Estilos del pie de página */
+.pie {
+    background-color: var(--header-bg);
+    border-top: 1px solid var(--border-color);
+    transition: background-color 0.3s ease, border-top-color 0.3s ease;
+}
+
+.seccion-pie h3 {
+    color: var(--text-color);
+    transition: color 0.3s ease;
+}
+
+.seccion-pie p,
+.pie-inferior p {
+    color: var(--text-color);
+    transition: color 0.3s ease;
+}
+
+.seccion-pie a {
+    color: var(--link-color);
+    transition: color 0.3s ease;
+}
+
+.seccion-pie a:hover {
+    color: var(--link-hover-color);
+}
+
+/* Colores personalizados del checkbox para modo oscuro */
+.mycheckbox span {
+    background: var(--unchecked-bg-color);
+    transition: background 0.5s;
+}
+
+body.modo-oscuro .mycheckbox span {
+    background: #555; /* Fondo más oscuro para el interruptor en modo oscuro */
+}
+
+.mycheckbox span::after {
+    background: var(--unchecked-knob-color);
+    transition: background 0.5s;
+}
+
+body.modo-oscuro .mycheckbox span::after {
+    background: #a0a0a0; /* Perilla más oscura para el interruptor */
+}
+
+.mycheckbox input:checked~span::after {
+    background: var(--checked-knob-color);
+}
+
+body.modo-oscuro .mycheckbox input:checked~span::after {
+    background: #6aaa6a; /* Verde para el estado activado en modo oscuro */
+} 
